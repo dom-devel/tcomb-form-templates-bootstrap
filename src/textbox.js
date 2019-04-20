@@ -63,9 +63,9 @@ function create(overrides = {}) {
       attrs.className = classnames(attrs.className);
       attrs.className += (attrs.className ? " " : "") + "form-control";
       if (attrs.type !== "textarea") {
-        attrs.className += "input";
+        attrs.className += " input";
       } else {
-        attrs.className += "textarea";
+        attrs.className += " textarea";
       }
       attrs.disabled = locals.disabled;
       if (locals.type !== "file") {
