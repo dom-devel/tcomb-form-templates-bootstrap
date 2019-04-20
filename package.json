@@ -1,7 +1,7 @@
 {
-  "name": "tcomb-form-templates-bootstrap",
+  "name": "tcomb-form-templates-bulma",
   "version": "0.2.4",
-  "description": "Bootstrap templates for tcomb-form",
+  "description": "Bulma templates for tcomb-form",
   "main": "lib/index.js",
   "files": [
     "lib",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gcanti/tcomb-form-templates-bootstrap.git"
+    "url": "https://github.com/dom-devel/tcomb-form-templates-bulma.git"
   },
   "author": "Giulio Canti <giulio.canti@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gcanti/tcomb-form-templates-bootstrap/issues"
+    "url": "https://github.com/dom-devel/tcomb-form-templates-bulma/issues"
   },
-  "homepage": "https://github.com/gcanti/tcomb-form-templates-bootstrap",
+  "homepage": "https://github.com/dom-devel/tcomb-form-templates-bulma",
   "dependencies": {
     "classnames": "^2.1.3",
     "tcomb": "^3.0.0"
@@ -51,11 +51,11 @@
   "tags": [
     "tcomb-form",
     "templates",
-    "bootstrap"
+    "bulma"
   ],
   "keywords": [
     "tcomb-form",
     "templates",
-    "bootstrap"
+    "bulma"
   ]
 }
