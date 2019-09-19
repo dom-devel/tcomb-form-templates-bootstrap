@@ -1,11 +1,13 @@
-Default templates used by [tcomb-form](https://github.com/gcanti/tcomb-form), so you are not supposed to do a manual setup.
+This is an alteration of the default [tcomb-form](https://github.com/gcanti/tcomb-form) templates so that you can use tcomb forms with Bulma. 
+
+Currently this isn't published to npm, you'll to install from Github.
 
 # Manual setup
 
 ```sh
 npm install tcomb-form
 # Install this custom set of templates
-npm install git+https://git@github.com/visionmedia/express.git
+npm install git+https://git@github.com/dom-devel/tcomb-form-templates-bulma.git
 ```
 
 ```js
