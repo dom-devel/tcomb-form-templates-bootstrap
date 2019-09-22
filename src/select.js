@@ -83,7 +83,11 @@ function create(overrides = {}) {
   select.renderSelect =
     overrides.renderSelect ||
     function renderSelect(locals) {
-      return <select {...locals.attrs}>{select.renderOptions(locals)}</select>;
+      return (
+        <div className="select">
+          <select {...locals.attrs}>{select.renderOptions(locals)}</select>
+        </div>
+      );
     };
 
   select.renderLabel =
