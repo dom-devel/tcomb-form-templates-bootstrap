@@ -83,8 +83,12 @@ function create(overrides = {}) {
   select.renderSelect =
     overrides.renderSelect ||
     function renderSelect(locals) {
+      let hiddenClass = "";
+      if ("hidden" in locals.attrs && locals.attrs.hidden) {
+        hiddenClass = "hidden";
+      }
       return (
-        <div className="select">
+        <div className={`select ${hiddenClass}`}>
           <select {...locals.attrs}>{select.renderOptions(locals)}</select>
         </div>
       );
