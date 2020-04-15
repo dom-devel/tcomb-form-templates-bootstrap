@@ -10,7 +10,8 @@ import renderFormGroup from "./renderFormGroup";
 const SelectConfig = t.struct(
     {
         addonBefore: t.Any,
-        horizontal: t.maybe(Breakpoints)
+        addonAfter: t.Any,
+        horizontal: t.maybe(Breakpoints),
     },
     "SelectConfig"
 );
@@ -67,12 +68,12 @@ function create(overrides = {}) {
             attrs.multiple = locals.isMultiple;
             attrs.disabled = locals.disabled;
             attrs.value = locals.value;
-            attrs.onChange = evt => {
+            attrs.onChange = (evt) => {
                 const value = locals.isMultiple
                     ? Array.prototype.slice
                           .call(evt.target.options)
-                          .filter(option => option.selected)
-                          .map(option => option.value)
+                          .filter((option) => option.selected)
+                          .map((option) => option.value)
                     : evt.target.value;
                 locals.onChange(value);
             };
@@ -86,7 +87,7 @@ function create(overrides = {}) {
     select.renderOptions =
         overrides.renderOptions ||
         function renderOptions(locals) {
-            return locals.options.map(x =>
+            return locals.options.map((x) =>
                 x.label ? getOptGroup(x) : getOption(x)
             );
         };
@@ -146,7 +147,7 @@ function create(overrides = {}) {
             return getLabel({
                 label: locals.label,
                 htmlFor: locals.attrs.id,
-                breakpoints: locals.config.horizontal
+                breakpoints: locals.config.horizontal,
             });
         };
 
@@ -169,7 +170,7 @@ function create(overrides = {}) {
                 select.renderLabel(locals),
                 select.renderSelect(locals),
                 select.renderError(locals),
-                select.renderHelp(locals)
+                select.renderHelp(locals),
             ];
         };
 
@@ -186,7 +187,7 @@ function create(overrides = {}) {
                     {select.renderSelect(locals)}
                     {select.renderError(locals)}
                     {select.renderHelp(locals)}
-                </div>
+                </div>,
             ];
         };
 
