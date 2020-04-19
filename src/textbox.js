@@ -155,7 +155,8 @@ function create(overrides = {}) {
     textbox.renderFileInput =
         overrides.renderFileInput ||
         function renderFileInput(locals) {
-            let filename = "Select a file.";
+            let filename = "No file selected.";
+            console.log(locals);
             if (locals.value) {
                 filename = locals.value.name;
             }
