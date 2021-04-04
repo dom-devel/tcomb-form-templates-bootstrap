@@ -1,38 +1,44 @@
-import getAlert from './getAlert'
-import renderFieldset from './renderFieldset'
+import getAlert from "./getAlert";
+import renderFieldset from "./renderFieldset";
 
 function create(overrides = {}) {
-  function struct(locals) {
-    let children = []
+    function struct(locals) {
+        let children = [];
 
-    if (locals.help) {
-      children.push(struct.renderHelp(locals))
+        if (locals.help) {
+            children.push(struct.renderHelp(locals));
+        }
+
+        if (locals.error && locals.hasError) {
+            children.push(struct.renderError(locals));
+        }
+
+        children = children.concat(
+            locals.order.map((name) => locals.inputs[name])
+        );
+
+        return struct.renderFieldset(children, locals);
     }
 
-    if (locals.error && locals.hasError) {
-      children.push(struct.renderError(locals))
-    }
+    struct.renderHelp =
+        overrides.renderHelp ||
+        function renderHelp(locals) {
+            return getAlert("info", locals.help);
+        };
 
-    children = children.concat(locals.order.map(name => locals.inputs[name]))
+    struct.renderError =
+        overrides.renderError ||
+        function renderError(locals) {
+            return getAlert("danger", locals.error);
+        };
 
-    return struct.renderFieldset(children, locals)
-  }
+    struct.renderFieldset = overrides.renderFieldset || renderFieldset;
 
-  struct.renderHelp = overrides.renderHelp || function renderHelp(locals) {
-    return getAlert('info', locals.help)
-  }
+    struct.clone = function clone(newOverrides = {}) {
+        return create({ ...overrides, ...newOverrides });
+    };
 
-  struct.renderError = overrides.renderError || function renderError(locals) {
-    return getAlert('danger', locals.error)
-  }
-
-  struct.renderFieldset = overrides.renderFieldset || renderFieldset
-
-  struct.clone = function clone(newOverrides = {}) {
-    return create({...overrides, ...newOverrides})
-  }
-
-  return struct
+    return struct;
 }
 
-export default create()
+export default create();

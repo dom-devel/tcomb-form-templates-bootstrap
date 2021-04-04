@@ -77,6 +77,11 @@ function create(overrides = {}) {
                     : evt.target.value;
                 locals.onChange(value);
             };
+            if ("idAppend" in attrs) {
+                attrs.id = `${attrs.id}_${attrs.idAppend}`;
+            }
+            delete attrs.idAppend;
+
             if (locals.help) {
                 attrs["aria-describedby"] =
                     attrs["aria-describedby"] || attrs.id + "-tip";

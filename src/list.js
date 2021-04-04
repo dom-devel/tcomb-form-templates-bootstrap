@@ -31,7 +31,7 @@ function create(overrides = {}) {
         }
 
         children = children.concat(
-            locals.items.map(item => {
+            locals.items.map((item) => {
                 return item.buttons.length === 0
                     ? list.renderRowWithoutButtons(item, locals)
                     : list.renderRow(item, locals);

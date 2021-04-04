@@ -80,6 +80,11 @@ function create(overrides = {}) {
                 attrs["aria-describedby"] =
                     attrs["aria-describedby"] || attrs.id + "-tip";
             }
+
+            if ("idAppend" in attrs) {
+                attrs.id = `${attrs.id}_${attrs.idAppend}`;
+            }
+            delete attrs.idAppend;
             return attrs;
         };
 
@@ -156,7 +161,6 @@ function create(overrides = {}) {
         overrides.renderFileInput ||
         function renderFileInput(locals) {
             let filename = "No file selected.";
-            console.log(locals);
             if (locals.value) {
                 filename = locals.value.name;
             }
@@ -223,6 +227,7 @@ function create(overrides = {}) {
             const className = label
                 ? locals.config.horizontal.getInputClassName()
                 : locals.config.horizontal.getOffsetClassName();
+
             return [
                 label,
                 <div className={classnames(className)}>

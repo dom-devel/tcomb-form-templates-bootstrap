@@ -1,91 +1,113 @@
-import React from 'react'
-import t from 'tcomb'
-import classnames from 'classnames'
-import Breakpoints from './Breakpoints'
-import getError from './getError'
-import getHelp from './getHelp'
-import renderFormGroup from './renderFormGroup'
+import React from "react";
+import t from "tcomb";
+import classnames from "classnames";
+import Breakpoints from "./Breakpoints";
+import getError from "./getError";
+import getHelp from "./getHelp";
+import renderFormGroup from "./renderFormGroup";
 
-const CheckboxConfig = t.struct({
-  horizontal: t.maybe(Breakpoints)
-}, 'CheckboxConfig')
+const CheckboxConfig = t.struct(
+    {
+        horizontal: t.maybe(Breakpoints),
+    },
+    "CheckboxConfig"
+);
 
 function create(overrides = {}) {
-  function checkbox(locals) {
-    locals.config = checkbox.getConfig(locals)
+    function checkbox(locals) {
+        locals.config = checkbox.getConfig(locals);
 
-    const children = locals.config.horizontal ?
-      checkbox.renderHorizontal(locals) :
-      checkbox.renderVertical(locals)
+        const children = locals.config.horizontal
+            ? checkbox.renderHorizontal(locals)
+            : checkbox.renderVertical(locals);
 
-    return checkbox.renderFormGroup(children, locals)
-  }
-
-  checkbox.getConfig = overrides.getConfig || function getConfig(locals) {
-    return new CheckboxConfig(locals.config || {})
-  }
-
-  checkbox.getAttrs = overrides.getAttrs || function getAttrs(locals) {
-    const attrs = t.mixin({}, locals.attrs)
-    attrs.type = 'checkbox'
-    attrs.disabled = locals.disabled
-    attrs.checked = locals.value
-    attrs.onChange = evt => locals.onChange(evt.target.checked)
-    if (locals.help) {
-      attrs['aria-describedby'] = attrs['aria-describedby'] || (attrs.id + '-tip')
+        return checkbox.renderFormGroup(children, locals);
     }
-    return attrs
-  }
 
-  checkbox.renderCheckbox = overrides.renderCheckbox || function renderCheckbox(locals) {
-    const attrs = checkbox.getAttrs(locals)
-    const className = {
-      checkbox: true,
-      disabled: attrs.disabled
-    }
-    return (
-      <div className={classnames(className)}>
-        <label htmlFor={attrs.id}>
-          <input {...attrs} /> {locals.label}
-        </label>
-      </div>
-    )
-  }
+    checkbox.getConfig =
+        overrides.getConfig ||
+        function getConfig(locals) {
+            return new CheckboxConfig(locals.config || {});
+        };
 
-  checkbox.renderError = overrides.renderError || function renderError(locals) {
-    return getError(locals)
-  }
+    checkbox.getAttrs =
+        overrides.getAttrs ||
+        function getAttrs(locals) {
+            const attrs = t.mixin({}, locals.attrs);
+            attrs.type = "checkbox";
+            attrs.disabled = locals.disabled;
+            attrs.checked = locals.value;
+            attrs.onChange = (evt) => locals.onChange(evt.target.checked);
+            if (locals.help) {
+                attrs["aria-describedby"] =
+                    attrs["aria-describedby"] || attrs.id + "-tip";
+            }
+            if ("idAppend" in attrs) {
+                attrs.id = `${attrs.id}_${attrs.idAppend}`;
+            }
+            delete attrs.idAppend;
+            return attrs;
+        };
 
-  checkbox.renderHelp = overrides.renderHelp || function renderHelp(locals) {
-    return getHelp(locals)
-  }
+    checkbox.renderCheckbox =
+        overrides.renderCheckbox ||
+        function renderCheckbox(locals) {
+            const attrs = checkbox.getAttrs(locals);
+            const className = {
+                checkbox: true,
+                disabled: attrs.disabled,
+            };
+            return (
+                <div className={classnames(className)}>
+                    <label htmlFor={attrs.id}>
+                        <input {...attrs} /> {locals.label}
+                    </label>
+                </div>
+            );
+        };
 
-  checkbox.renderVertical = overrides.renderVertical || function renderVertical(locals) {
-    return [
-      checkbox.renderCheckbox(locals),
-      checkbox.renderError(locals),
-      checkbox.renderHelp(locals)
-    ]
-  }
+    checkbox.renderError =
+        overrides.renderError ||
+        function renderError(locals) {
+            return getError(locals);
+        };
 
-  checkbox.renderHorizontal = overrides.renderHorizontal || function renderHorizontal(locals) {
-    const className = locals.config.horizontal.getOffsetClassName()
-    return (
-      <div className={classnames(className)}>
-        {checkbox.renderCheckbox(locals)}
-        {checkbox.renderError(locals)}
-        {checkbox.renderHelp(locals)}
-      </div>
-    )
-  }
+    checkbox.renderHelp =
+        overrides.renderHelp ||
+        function renderHelp(locals) {
+            return getHelp(locals);
+        };
 
-  checkbox.renderFormGroup = overrides.renderFormGroup || renderFormGroup
+    checkbox.renderVertical =
+        overrides.renderVertical ||
+        function renderVertical(locals) {
+            return [
+                checkbox.renderCheckbox(locals),
+                checkbox.renderError(locals),
+                checkbox.renderHelp(locals),
+            ];
+        };
 
-  checkbox.clone = function clone(newOverrides = {}) {
-    return create({...overrides, ...newOverrides})
-  }
+    checkbox.renderHorizontal =
+        overrides.renderHorizontal ||
+        function renderHorizontal(locals) {
+            const className = locals.config.horizontal.getOffsetClassName();
+            return (
+                <div className={classnames(className)}>
+                    {checkbox.renderCheckbox(locals)}
+                    {checkbox.renderError(locals)}
+                    {checkbox.renderHelp(locals)}
+                </div>
+            );
+        };
 
-  return checkbox
+    checkbox.renderFormGroup = overrides.renderFormGroup || renderFormGroup;
+
+    checkbox.clone = function clone(newOverrides = {}) {
+        return create({ ...overrides, ...newOverrides });
+    };
+
+    return checkbox;
 }
 
-export default create()
+export default create();
